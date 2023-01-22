@@ -4,7 +4,7 @@ public class ReverseString {
 	public static void main(String[] args) {
 		
 		
-		String r = reverse("Alifurkan");
+		String r = reverse("Alig");
 		System.out.println(r);
 	}
 	
