@@ -14,8 +14,8 @@ public class StudentRecordLinkedList {
  
         Record record = new Record();
         
-            // Initial Employee record
-            // Using mutators to had code the data
+        // Initial Employee record
+        // Using mutators to had code the data
         record.setIdNumber(6862);
         record.setContactNumber(911);
         record.setName("Ankit");

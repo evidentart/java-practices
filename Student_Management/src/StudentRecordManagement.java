@@ -43,7 +43,7 @@ public class StudentRecordManagement {
     {
  
         // Iterating record list
-        // using for eacj loop
+        // using for each loop
         for (Record l : list) {
  
             // Checking record by id Number
