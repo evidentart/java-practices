@@ -27,11 +27,11 @@ public class Adventure {
 	Font playerInterface = new Font("Times New Roman", Font.PLAIN, 25);
 	JButton startButton, choice1, choice2, choice3, choice4;
 	JTextArea gameTextArea;
-	int playerHP, monsterHP, trophy, armor, enemyHP;		//enemyHP will be used
+	int playerHP, monsterHP, trophy, armor, enemyHP;		
 	String weapon, position;
 	
 	Random rand = new Random();
-	String[] enemies = {"Goblin", "Zombie", "Warrior", "Assasin"};    //Array will be used
+	String[] enemies = {"Goblin", "Zombie", "Warrior", "Assasin"};    
 	
 	TitleScreenHandler myHandler = new TitleScreenHandler();
 	ChoiceHandler choiceHandler = new ChoiceHandler();
@@ -294,7 +294,8 @@ public class Adventure {
 		position = "attackGuard";
 		gameTextArea.setText("Guard: Big mistake!");
 		playerHP = playerHP - 10;
-		hpLabelNumber.setText("" + playerHP);
+		
+		hpLabelNumber.setText("HP:  " + playerHP);
 		choice1.setText(">");
 		choice2.setText("");
 		choice3.setText("");
@@ -303,16 +304,18 @@ public class Adventure {
 //********************************************************************************************//
 	public void crossRoad() {
 		position = "crossRoad";
-		gameTextArea.setText("You are at crossroad. \nIf you go south, you go back to town");
-		choice1.setText("Go north");
+		gameTextArea.setText("You are at crossroad. \nIf you go south, you can go back to town");
+		choice1.setText("Altar of Replenish");
 		choice2.setText("Go east");
 		choice3.setText("Go south");
 		choice4.setText("Go west");
 	}
 	public void north() {
 		position = "north";
-		gameTextArea.setText("There is a river. Drink and replenish hP");
-		playerHP = playerHP + 2;
+		gameTextArea.setText("There is a river. Drink and replenish 20 HP");
+		
+		
+		playerHP = playerHP + 10;
 		hpLabelNumber.setText("Hp:  " + playerHP);
 		choice1.setText("Go south");
 		choice2.setText("");
@@ -321,7 +324,7 @@ public class Adventure {
 	}
 	public void east() {
 		position = "east";
-		gameTextArea.setText("While walking in the forest, you found a greatsword");
+		gameTextArea.setText("While walking in the forest, you found a greatsword...");
 		weapon = "Long Sword";
 		weaponLabelName.setText("Weapon: " + weapon);
 		choice1.setText("Go west");
@@ -334,7 +337,7 @@ public class Adventure {
 	public void west() {
 		position = "west";
 		
-		gameTextArea.setText("You encounter a monster!");   //Arrays.toString(enemies)
+		gameTextArea.setText("You encounter a monster!");   
 		choice1.setText("Fight");
 		choice2.setText("Run");
 		choice3.setText("");
@@ -344,12 +347,14 @@ public class Adventure {
 	
 	public void fight() {
 		position = "fight";
-		gameTextArea.setText("Monster HP: " + monsterHP + "\n\nWhat do you do?");
+		gameTextArea.setText("Common Goblin: " + monsterHP + "\n\nMake your next move\nYou can leave"
+				+ " and try another way to slay the creature!");
 		choice1.setText("Attack");
 		choice2.setText("Run");
 		choice3.setText("");
 		choice4.setText("");
 	}
+	
 	
 	public void playerAttack() {
 		position = "playerAttack";
@@ -358,12 +363,12 @@ public class Adventure {
 			
 			if(weapon.equals("Sword")) {
 				
-			playerDamage = new java.util.Random().nextInt(10);
+			playerDamage = new java.util.Random().nextInt(15);
 			
 			}
 			else if(weapon.equals("Long Sword")) {
 				
-		 	playerDamage = new java.util.Random().nextInt(15);
+		 	playerDamage = new java.util.Random().nextInt(20);
 			}	
 				
 			gameTextArea.setText("You attacked the goblin and gave " + playerDamage + " damage!");
@@ -380,10 +385,25 @@ public class Adventure {
 		
 		int monsterDamage = 0;
 		
-		monsterDamage = new java.util.Random().nextInt(8);
-		gameTextArea.setText("The goblin attacked you and gave " + monsterDamage + "damage!");
-		playerHP = playerHP - monsterDamage;
-		hpLabelNumber.setText("Hp:  " + playerHP);
+		monsterDamage = new java.util.Random().nextInt(15);
+		gameTextArea.setText("The goblin attacked you and gave " + monsterDamage + " damage!");
+		
+		
+		if (armor > 0) {
+			
+			armor = armor - monsterDamage;
+			hpLabelNumber.setText("Hp:  " + playerHP);
+			armorLabelNumber.setText("Armor:  " + armor);
+			
+		}
+		else {
+			
+			
+			playerHP = playerHP - monsterDamage;
+			armor = 0;
+			hpLabelNumber.setText("Hp:  " + playerHP);
+			armorLabelNumber.setText("Armor:  " + armor);
+		}
 		
 		choice1.setText(">");
 		choice2.setText("");
@@ -429,9 +449,7 @@ public class Adventure {
 		choice4.setVisible(false);
 	}
 	
-	public void deepDungeon() {
-		
-	}
+
 	
 	
 	
@@ -501,7 +519,14 @@ public class Adventure {
 				break;
 			case "crossRoad":
 				switch(yourChoice) {
-				case "c1": north(); break;
+				case "c1": 
+					if (playerHP > 100) {
+						crossRoad(); break;
+						
+					}
+					else {
+						north(); break;
+					}
 				case "c2": east(); break;
 				case "c3": townEntrance(); break;
 				case "c4": west(); break;
@@ -509,7 +534,9 @@ public class Adventure {
 				break;
 			case "north":
 				switch(yourChoice) {
-				case "c1": crossRoad(); break;
+				case "c1": 
+	
+					crossRoad(); break;
 				}
 				break;
 			case "east":
@@ -556,15 +583,11 @@ public class Adventure {
 			case "win":
 				switch(yourChoice) {
 				case "c1": crossRoad();
-				case "c2": deepDungeon();
+				
 				}
 				break;
 				
-		/*	case "lose":
-				switch(yourChoice){
-					case "c1": gameScreen(); break;
-				}
-				break; */
+	
 			}	
 			
 		}
