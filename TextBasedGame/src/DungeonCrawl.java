@@ -30,7 +30,7 @@ public class DungeonCrawl {
 			int playerHP, monsterHP, trophy, armor, enemyHP;		
 			String weapon, position;
 			
-			Random rand = new Random();
+			Random rand = new Random(); 
 			
 			
 			TitleScreenHandler myHandler = new TitleScreenHandler();
