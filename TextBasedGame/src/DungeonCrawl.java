@@ -223,10 +223,10 @@ public class DungeonCrawl {
 				gameTextArea.setText("~You are the goblin slayer who makes his living"
 						+ " by slaying monsters. You recently heard about a trouble in a village\n"
 						+ "called Waterfall and decided to investigate~\n"
-						+ "\nGoblin Slayer: This must be the village...\nI need to talk to someone about "
+						+ "\nGoblin Slayer: This must be the village...I need to talk to\nsomeone about "
 					+ "the contract.");
 				
-				choice1.setText("Talk to the guard");
+				choice1.setText("Talk the guard");
 				choice2.setText("Attack the guard");
 				choice3.setText("Leave the village");
 				choice4.setText("");
@@ -296,19 +296,35 @@ public class DungeonCrawl {
 				playerHP = playerHP - 10;
 				
 				hpLabelNumber.setText("HP:  " + playerHP);
+				
+				
+				if(playerHP <= 0) {
+					gameTextArea.setText("You are dead !\n\n <GAME OVER>");
+					
+					
+					choice1.setVisible(false);
+					choice2.setVisible(false);
+					choice3.setVisible(false);
+					choice4.setVisible(false);
+				}else {
 				choice1.setText(">");
 				choice2.setText("");
 				choice3.setText("");
 				choice4.setText("");
+				}
+				
+				
+				
 			}
 		//********************************************************************************************//
 			public void crossRoad() {
 				position = "crossRoad";
-				gameTextArea.setText("You are at crossroad. \nIf you go south, you can go back to town");
+				gameTextArea.setText("You are at crossroad.\n\n~Consider exploring the area before venturing"
+						+ " off...\nOnce you claim the trophy,go back to the castle and talk to guard...~");
 				choice1.setText("Altar of Replenish");
-				choice2.setText("Go east");
-				choice3.setText("Go south");
-				choice4.setText("Go west");
+				choice2.setText("Forbidden Forest");
+				choice3.setText("Castle Entrance");
+				choice4.setText("Dungeon Entrance");
 			}
 			public void north() {
 				position = "north";
@@ -317,19 +333,18 @@ public class DungeonCrawl {
 				
 				playerHP = playerHP + 10;
 				hpLabelNumber.setText("Hp:  " + playerHP);
-				choice1.setText("Go south");
+				choice1.setText("Back to town");
 				choice2.setText("");
 				choice3.setText("");
 				choice4.setText("");
 			}
-			public void east() {
-				position = "east";
-				gameTextArea.setText("While walking in the forest, you found a greatsword...");
-				weapon = "Long Sword";
-				weaponLabelName.setText("Weapon: " + weapon);
-				choice1.setText("Go west");
-				choice2.setText("");
-				choice3.setText("");
+			public void forest() {
+				position = "forest";
+				gameTextArea.setText("While walking in the forest, you found a shady mercant \noffering free items,"
+						+ " however you can only pick one of them.");
+				choice1.setText("Long Sword");
+				choice2.setText("Fire Wand");
+				choice3.setText("Back to town");
 				choice4.setText("");
 			}
 			
@@ -339,7 +354,7 @@ public class DungeonCrawl {
 				
 				gameTextArea.setText("You encounter a monster!");   
 				choice1.setText("Fight");
-				choice2.setText("Run");
+				choice2.setText("Escape");
 				choice3.setText("");
 				choice4.setText("");
 				
@@ -347,10 +362,10 @@ public class DungeonCrawl {
 			
 			public void fight() {
 				position = "fight";
-				gameTextArea.setText("Common Goblin: " + monsterHP + "\n\nMake your next move\nYou can leave"
-						+ " and try another way to slay the creature!");
+				gameTextArea.setText("Rare Goblin: " + monsterHP + " ~ Hp"+"\n\nMake your next move\nYou can leave"
+						+ " and try another way to slay the creature...");
 				choice1.setText("Attack");
-				choice2.setText("Run");
+				choice2.setText("Escape");
 				choice3.setText("");
 				choice4.setText("");
 			}
@@ -363,13 +378,16 @@ public class DungeonCrawl {
 					
 					if(weapon.equals("Sword")) {
 						
-					playerDamage = new java.util.Random().nextInt(15);
+						playerDamage = new java.util.Random().nextInt(15);
 					
 					}
 					else if(weapon.equals("Long Sword")) {
 						
-				 	playerDamage = new java.util.Random().nextInt(20);
-					}	
+						playerDamage = new java.util.Random().nextInt(20);
+					}
+					else if(weapon.equals("Fire Wand")) {
+						playerDamage = new java.util.Random().nextInt(25);
+					}
 						
 					gameTextArea.setText("You attacked the goblin and gave " + playerDamage + " damage!");
 					
@@ -385,7 +403,7 @@ public class DungeonCrawl {
 				
 				int monsterDamage = 0;
 				
-				monsterDamage = new java.util.Random().nextInt(15);
+				monsterDamage = new java.util.Random().nextInt(25);
 				gameTextArea.setText("The goblin attacked you and gave " + monsterDamage + " damage!");
 				
 				
@@ -418,8 +436,8 @@ public class DungeonCrawl {
 				
 				trophy = 1;
 				
-				choice1.setText("Go east");
-				choice2.setText("Perhaps another time");
+				choice1.setText("Back to town");
+				choice2.setText("Chained Door");
 				choice3.setText("");
 				choice4.setText("");
 			}
@@ -527,7 +545,17 @@ public class DungeonCrawl {
 							else {
 								north(); break;
 							}
-						case "c2": east(); break;
+						case "c2": 
+							
+							if(weapon.equals("Long Sword") || weapon.equals("Fire Wand")) {
+								
+								crossRoad(); break;
+							}
+							else {
+								forest(); break;
+							}
+							
+							
 						case "c3": townEntrance(); break;
 						case "c4": 
 							
@@ -547,9 +575,19 @@ public class DungeonCrawl {
 							crossRoad(); break;
 						}
 						break;
-					case "east":
+					case "forest":
 						switch(yourChoice) {
-						case "c1": crossRoad(); break;
+						case "c1":  		
+							weapon = "Long Sword";
+							weaponLabelName.setText("Weapon: " + weapon);
+							gameTextArea.setText("You obtained Long Sword!\nDamage greatly increased.");
+						break;
+						case "c2":  
+							weapon = "Fire Wand";
+							weaponLabelName.setText("Weapon: " + weapon);
+							gameTextArea.setText("You obtained Fire Wand!\nDamage greatly increased.");
+						break;
+						case "c3": crossRoad(); break;
 					}
 						break;
 					case "west":
