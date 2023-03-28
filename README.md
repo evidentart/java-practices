@@ -1,1 +1,1 @@
-# Random_practice
+# Practices & personal projects
