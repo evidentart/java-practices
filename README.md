@@ -1,1 +1,1 @@
-# practices & personal projects
+# Collection of mini projects and practices written in Java
